@@ -1,0 +1,35 @@
+name: Testes Postman - Carrinho
+
+on:
+  push:
+    branches: [ "carrinho" ]
+  pull_request:
+    branches: [ "carrinho" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar Newman e Reporter HTML
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Executar coleção Carrinho
+        run: |
+          newman run ./carrinho.json \
+          -g ./globals.json \
+          -e ./environment.json \
+          --delay-request 1 \
+          --reporters cli,htmlextra \
+          --reporter-htmlextra-export ./results/report-carrinho.html
+
+      - name: Fazer upload do relatório
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-carrinho
+          path: ./results/report-carrinho.html
