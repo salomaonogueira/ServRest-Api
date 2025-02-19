@@ -1,0 +1,63 @@
+{
+	"id": "84b2513a-8882-478c-8269-75456c01d54e",
+	"values": [
+		{
+			"key": "URL",
+			"value": "https://serverest.dev/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "MsgAuth",
+			"value": "Login realizado com sucesso",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "MsgRegisterSuccess",
+			"value": "Cadastro realizado com sucesso",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "PassUser",
+			"value": "1234@Teste",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "MsgDeletedSuccess",
+			"value": "Registro excluído com sucesso",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "PassUserUpdate",
+			"value": "Teste@1234",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "MsgDeleteReturnSuccess",
+			"value": "Registro excluído com sucesso. Estoque dos produtos reabastecido",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "MsgNotFound",
+			"value": "Não foi encontrado carrinho para esse usuário",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2025-02-19T20:50:21.737Z",
+	"_postman_exported_using": "Postman/11.33.3"
+}

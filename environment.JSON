@@ -1,0 +1,123 @@
+{
+	"id": "cfba4293-6d55-4207-bd00-e4a7c1793bc1",
+	"name": "ServRest",
+	"values": [
+		{
+			"key": "id_user",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "firstName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "lastName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "fullName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "userMail",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Name",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "randomEmail",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "EmailUpdate",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "id_produto",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "id_produtos",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productPrice",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productDescription",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productQuantity",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productName2",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productPrice2",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productDescription2",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "productQuantity2",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "id_produto_2",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-02-19T20:50:47.380Z",
+	"_postman_exported_using": "Postman/11.33.3"
+}

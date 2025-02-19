@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "c155ed5d-5892-4be3-999d-9b98ab69d4f7",
+		"name": "01_usuários",
+		"description": "# About this collection\n\nThis collection helps you set up contract tests to ensure that two separate systems are compatible and can communicate with one another.\n\n## **Using the collection**\n\n**Step 1:** Send the sample requests and view the response and test results.\n\n**Step 2:** Replace the sample request URLs with your desired API endpoints.\n\n**Step 3:** Customize the tests in the \"Tests\" tab if needed. Don't forget to save your changes.\n\n### Resources\n\n[Scripting in Postman](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)\n\n[Test script examples](https://learning.postman.com/docs/writing-scripts/script-references/test-examples/)\n\n[Postman Sandbox API reference](https://learning.postman.com/docs/sending-requests/grpc/postman-sandbox-api/#writing-assertions)\n\n[Using the Collection Runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/)\n\n[  \n](https://postman.postman.co/documentation/24552533-5bead607-0197-4e1d-87d4-3160bc7631c1?entity=&branch=&version=)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34625845"
+	},
+	"item": [
+		{
+			"name": "usuarios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate authenticate msg\", () => {\r",
+							"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"id_user\",pm.response.json()._id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function firstName () {\r",
+							"    let firstName = [\"Salomao\", \"Jessica\", \"Lilia\", \"Roberta\", \"Taina\", \"Wagner\", \"Marcelo\", \"Renato\", \"Eronilson\", \"Geisy\", \"Felipe\", \"Ivan\", \"João\", \"Pedro\", \"Romero\", \"Cassio\", \"Emerson\", \"Guerrero\"];\r",
+							"\r",
+							"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+							"\r",
+							"    return randomItem\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"firstName\", firstName());\r",
+							"\r",
+							"function lastName () {\r",
+							"    let lastName = [\"Almeida\", \"Nogueira\", \"Freitas\", \"Marinho\", \"Souza\", \"Sousa\", \"Silva\", \"Santos\", \"Carvalho\", \"Ramos\", \"Ribeiro\", \"Bitencourt\", \"Mercury\"];\r",
+							"\r",
+							"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+							"\r",
+							"    return randomItem\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"lastName\", lastName());\r",
+							"\r",
+							"pm.environment.set(\"fullName\", pm.environment.get(\"firstName\") + \" \" + pm.environment.get(\"lastName\"));\r",
+							"\r",
+							"function gerarNumero() {\r",
+							"    return Math.floor(Math.random() * 10);\r",
+							"}\r",
+							"\r",
+							"function userMail() {\r",
+							"    const firstName = pm.environment.get(\"firstName\").toLowerCase();\r",
+							"    const lastName = pm.environment.get(\"lastName\").toLowerCase();\r",
+							"    const domains = [\"@outlook.com\", \"@gmail.com\", \"@yahoo.com.br\", \"@uol.com.br\", \"@hotmail.com\"];\r",
+							"    \r",
+							"    const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+							"    \r",
+							"    const email = `${firstName}${lastName}${randomDomain}`;\r",
+							"    \r",
+							"    pm.environment.set(\"userMail\", email);\r",
+							"}\r",
+							"\r",
+							"userMail();\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"{{fullName}}\",\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\",\r\n  \"administrador\": \"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://serverest.dev/usuarios",
+					"protocol": "https",
+					"host": [
+						"serverest",
+						"dev"
+					],
+					"path": [
+						"usuarios"
+					]
+				},
+				"description": "The tests in this request validate that the request body sent as form-data is valid."
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate authenticate msg\", function () {\r",
+							"    pm.expect(pm.globals.get(\"MsgAuth\")).to.eql(pm.response.json().message);\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"token\",pm.response.json().authorization);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "The tests in the request validate the response code and the data returned in the response is the same as the one being sent."
+			},
+			"response": []
+		},
+		{
+			"name": "lista de usuarios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\",() => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Check if fields are not empty\", () =>  {",
+							"    var jsonData = pm.response.json();",
+							"    jsonData.usuarios.forEach(function (usuario) {",
+							"        pm.expect(usuario.nome).to.not.be.empty;",
+							"        pm.expect(usuario.email).to.not.be.empty;",
+							"        pm.expect(usuario.password).to.not.be.empty;",
+							"        pm.expect(usuario.administrador).to.not.be.empty;",
+							"        pm.expect(usuario._id).to.not.be.empty;",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/usuarios",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				},
+				"description": "The tests in this request validate that:\n\n- the response code is 200\n- the response is a JSON object\n- the response has an 'arg' object\n- the response has 'headers' object\n- the response has a 'URL' property"
+			},
+			"response": []
+		},
+		{
+			"name": "usuarios_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check is id exist\", function () {\r",
+							"    pm.expect(pm.environment.get(\"id_user\")).to.equals(pm.response.json()._id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check is name exist\", function () {\r",
+							"    pm.expect(pm.environment.get(\"fullName\")).to.equals(pm.response.json().nome);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"email is not empty\", function () {\r",
+							"    pm.expect(pm.response.json().email).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"password is not empty\", function () {\r",
+							"    pm.expect(pm.response.json().password).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if adm is false\", function () {\r",
+							"    pm.expect(pm.response.json().administrador).to.eql(\"false\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/usuarios/{{id_user}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_user}}"
+					]
+				},
+				"description": "The tests in this request validate that:\n\n- the response code is 200\n- the response is a JSON object\n- the response has an 'arg' object\n- the response has 'headers' object\n- the response has a 'URL' property"
+			},
+			"response": []
+		},
+		{
+			"name": "usuarios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate authenticate msg\", function () {\r",
+							"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"{{fullName}}\",\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\",\r\n  \"administrador\": \"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://serverest.dev/usuarios/{{id_user}}",
+					"protocol": "https",
+					"host": [
+						"serverest",
+						"dev"
+					],
+					"path": [
+						"usuarios",
+						"{{id_user}}"
+					]
+				},
+				"description": "The tests in this request validate that the request body sent as form-data is valid."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://postman-echo.com"
+		}
+	]
+}
