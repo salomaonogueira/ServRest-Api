@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "6d76290c-e2e7-42ed-a5db-f37b54c94a8a",
+		"name": "02_produtos",
+		"description": "# About this collection\n\nThis collection helps ensure your API continues to work as expected after updates or changes. It contains sample requests for a series of tests that validate different aspects of an API, including:\n\n1. **Status code verification:** We'll check if the API returns the expected status codes for various requests, ensuring reliability and proper error handling.\n    \n2. **JSON schema verification:** We'll make sure the JSON response conforms to a specified JSON Schema, ensuring API contracts are honored.\n    \n3. **Response time verification:** We'll verify that the API's response time is within the acceptable range, providing a smooth user experience and optimizing performance.\n    \n4. **Response body verification:** We'll validate the structure and content of the response body for accuracy, ensuring the integrity of the data and preventing potential issues downstream.\n    \n5. **Header verification:** We'll confirm the presence and correct values of specific headers in the response, enabling secure and well-structured communication between your app and its users.\n    \n\n## **Using this collection**\n\n**Step 1:** Send the sample requests and view the response and test results.\n\n**Step 2:** Replace the sample request URLs with your desired API endpoints.\n\n**Step 3:** Customize the tests in the \"Tests\" tab if needed. Don't forget to save your changes.\n\n**Step 4:** Run the collection by selecting \"Run\".\n\n### Resources\n\n[Scripting in Postman](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)\n\n[Test script examples](https://learning.postman.com/docs/writing-scripts/script-references/test-examples/)\n\n[Postman Sandbox API reference](https://learning.postman.com/docs/sending-requests/grpc/postman-sandbox-api/#writing-assertions)\n\n[Using the Collection Runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34625845"
+	},
+	"item": [
+		{
+			"name": "dependência",
+			"item": [
+				{
+					"name": "usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"id_user\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName () {\r",
+									"    let firstName = [\"Salomao\", \"Jessica\", \"Lilia\", \"Roberta\", \"Taina\", \"Wagner\", \"Marcelo\", \"Renato\", \"Eronilson\", \"Geisy\", \"Felipe\", \"Ivan\", \"João\", \"Pedro\", \"Romero\", \"Cassio\", \"Emerson\", \"Guerrero\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"firstName\", firstName());\r",
+									"\r",
+									"function lastName () {\r",
+									"    let lastName = [\"Almeida\", \"Nogueira\", \"Freitas\", \"Marinho\", \"Souza\", \"Sousa\", \"Silva\", \"Santos\", \"Carvalho\", \"Ramos\", \"Ribeiro\", \"Bitencourt\", \"Mercury\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"lastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"fullName\", pm.environment.get(\"firstName\") + \" \" + pm.environment.get(\"lastName\"));\r",
+									"\r",
+									"function gerarNumero() {\r",
+									"    return Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"\r",
+									"function userMail() {\r",
+									"    const firstName = pm.environment.get(\"firstName\").toLowerCase();\r",
+									"    const lastName = pm.environment.get(\"lastName\").toLowerCase();\r",
+									"    const domains = [\"@outlook.com\", \"@gmail.com\", \"@yahoo.com.br\", \"@uol.com.br\", \"@hotmail.com\"];\r",
+									"    \r",
+									"    const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+									"    \r",
+									"    const email = `${firstName}${lastName}${randomDomain}`;\r",
+									"    \r",
+									"    pm.environment.set(\"userMail\", email);\r",
+									"}\r",
+									"\r",
+									"userMail();\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{fullName}}\",\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\",\r\n  \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://serverest.dev/usuarios",
+							"protocol": "https",
+							"host": [
+								"serverest",
+								"dev"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "The tests in this request validate that the request body sent as form-data is valid."
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", function () {\r",
+									"    pm.expect(pm.globals.get(\"MsgAuth\")).to.eql(pm.response.json().message);\r",
+									"});\r",
+									"\r",
+									"pm.globals.set(\"token\",pm.response.json().authorization);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "The tests in the request validate the response code and the data returned in the response is the same as the one being sent."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "caminho_feliz",
+			"item": [
+				{
+					"name": "lista_produtos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains a non-empty list of products\", () => {",
+									"    pm.expect(pm.response.json().produtos).to.be.an('array').that.is.not.empty;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/produtos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						},
+						"description": "The test on this request asserts that the reponse has a \"200 OK\" status.\n\nYou can check for any HTTP status code using the same mechanism, for example `pm.response.to.have.status(403)` if your API should return an \"Unauthorized\" response."
+					},
+					"response": []
+				},
+				{
+					"name": "produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Validate authenticate msg\", () => {",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);",
+									"});",
+									"",
+									"pm.environment.set(\"id_produto\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function productDetails() {\r",
+									"    let products = [\r",
+									"        { \"nome\": \"Mouse Max LX\", \"preco\": 470, \"descricao\": \"Mouse\", \"quantidade\": 381 },\r",
+									"        { \"nome\": \"Teclado Ultra\", \"preco\": 320, \"descricao\": \"Teclado\", \"quantidade\": 150 },\r",
+									"        { \"nome\": \"Monitor Vision Pro\", \"preco\": 1240, \"descricao\": \"Monitor\", \"quantidade\": 45 },\r",
+									"        { \"nome\": \"Câmera Digital XT\", \"preco\": 870, \"descricao\": \"Câmera\", \"quantidade\": 78 },\r",
+									"        { \"nome\": \"Drone SkyFlyer\", \"preco\": 1790, \"descricao\": \"Drone\", \"quantidade\": 200 },\r",
+									"        { \"nome\": \"Fone de Ouvido Bass+\", \"preco\": 250, \"descricao\": \"Fone de Ouvido\", \"quantidade\": 500 },\r",
+									"        { \"nome\": \"Impressora JetPrint\", \"preco\": 670, \"descricao\": \"Impressora\", \"quantidade\": 60 },\r",
+									"        { \"nome\": \"Notebook PowerLite\", \"preco\": 2340, \"descricao\": \"Notebook\", \"quantidade\": 120 },\r",
+									"        { \"nome\": \"Smartwatch FitTrack\", \"preco\": 600, \"descricao\": \"Smartwatch\", \"quantidade\": 340 },\r",
+									"        { \"nome\": \"Tablet EasyTab\", \"preco\": 900, \"descricao\": \"Tablet\", \"quantidade\": 210 }\r",
+									"    ];\r",
+									"\r",
+									"    let randomProduct = products[Math.floor(Math.random() * products.length)];\r",
+									"\r",
+									"    return randomProduct;\r",
+									"}\r",
+									"\r",
+									"let product = productDetails();\r",
+									"pm.environment.set(\"productName\", product.nome);\r",
+									"pm.environment.set(\"productPrice\", product.preco);\r",
+									"pm.environment.set(\"productDescription\", product.descricao);\r",
+									"pm.environment.set(\"productQuantity\", product.quantidade);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{productName}}\",\r\n    \"preco\": {{productPrice}},\r\n    \"descricao\": \"{{productDescription}}\",\r\n    \"quantidade\": {{productQuantity}}\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/produtos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						},
+						"description": "The test on this request asserts that the reponse has a \"200 OK\" status.\n\nYou can check for any HTTP status code using the same mechanism, for example `pm.response.to.have.status(403)` if your API should return an \"Unauthorized\" response."
+					},
+					"response": []
+				},
+				{
+					"name": "produto_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the 'nome' field in the response\", () => {\r",
+									"    pm.expect(pm.response.json().nome).to.eql(pm.environment.get(\"productName\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the 'preco' field in the response\", () => {\r",
+									"    pm.expect(pm.response.json().preco).to.eql(pm.environment.get(\"productPrice\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the 'descricao' field in the response\", () => {\r",
+									"    pm.expect(pm.response.json().descricao).to.eql(pm.environment.get(\"productDescription\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the 'quantidade' field in the response\", () => {\r",
+									"    pm.expect(pm.response.json().quantidade).to.eql(pm.environment.get(\"productQuantity\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the '_id' field in the response\", () => {\r",
+									"    pm.expect(pm.response.json()._id).to.eql(pm.environment.get(\"id_produto\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/produtos/{{id_produto}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{id_produto}}"
+							]
+						},
+						"description": "This request has a test asserting that a response is received within a specific time limit (in this case 5 seconds). This is useful for ensuring consistent API performance.\n\nYou can access details of the response, such as response time, on the `pm.response` object. See the [response object documentation](https://learning.postman.com/docs/writing-scripts/script-references/postman-sandbox-api-reference/#scripting-with-response-data) for other properties available."
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar_produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Logitech MS Vertical\",\r\n  \"preco\": 450,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/produtos/{{id_produto}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{id_produto}}"
+							]
+						},
+						"description": "This request has a test asserting that certain response headers are present or have an expected value.\n\nYou can access details of the response, such as headers, on the `pm.response` object. See the [response object documentation](https://learning.postman.com/docs/writing-scripts/script-references/postman-sandbox-api-reference/#scripting-with-response-data) for other properties available."
+					},
+					"response": []
+				},
+				{
+					"name": "produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/produtos/{{id_produto}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{id_produto}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dependência_delete",
+			"item": [
+				{
+					"name": "usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", function () {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/usuarios/{{id_user}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"usuarios",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
