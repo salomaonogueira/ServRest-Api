@@ -1,0 +1,35 @@
+name: Testes Postman - Produtos
+
+on:
+  push:
+    branches: [ "produtos" ]
+  pull_request:
+    branches: [ "produtos" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar Newman e Reporter HTML
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Executar coleção Produtos
+        run: |
+          newman run ./produtos.json \
+          -g ./globals.json \
+          -e ./environment.json \
+          --delay-request 1 \
+          --reporters cli,htmlextra \
+          --reporter-htmlextra-export ./results/report-produtos.html
+
+      - name: Fazer upload do relatório
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-produtos
+          path: ./results/report-produtos.html
