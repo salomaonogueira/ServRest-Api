@@ -1,0 +1,834 @@
+{
+	"info": {
+		"_postman_id": "b6b16bc7-aabf-43c8-9fc5-fcce0bf4e341",
+		"name": "03_carrinho",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34625845"
+	},
+	"item": [
+		{
+			"name": "dependência",
+			"item": [
+				{
+					"name": "usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"id_user\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName () {\r",
+									"    let firstName = [\"Salomao\", \"Jessica\", \"Lilia\", \"Roberta\", \"Taina\", \"Wagner\", \"Marcelo\", \"Renato\", \"Eronilson\", \"Geisy\", \"Felipe\", \"Ivan\", \"João\", \"Pedro\", \"Romero\", \"Cassio\", \"Emerson\", \"Guerrero\"];\r",
+									"\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"firstName\", firstName());\r",
+									"\r",
+									"function lastName () {\r",
+									"    let lastName = [\"Almeida\", \"Nogueira\", \"Freitas\", \"Marinho\", \"Souza\", \"Sousa\", \"Silva\", \"Santos\", \"Carvalho\", \"Ramos\", \"Ribeiro\", \"Bitencourt\", \"Mercury\"];\r",
+									"\r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"lastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"fullName\", pm.environment.get(\"firstName\") + \" \" + pm.environment.get(\"lastName\"));\r",
+									"\r",
+									"function gerarNumero() {\r",
+									"    return Math.floor(Math.random() * 10);\r",
+									"}\r",
+									"\r",
+									"function userMail() {\r",
+									"    const firstName = pm.environment.get(\"firstName\").toLowerCase();\r",
+									"    const lastName = pm.environment.get(\"lastName\").toLowerCase();\r",
+									"    const domains = [\"@outlook.com\", \"@gmail.com\", \"@yahoo.com.br\", \"@uol.com.br\", \"@hotmail.com\"];\r",
+									"    \r",
+									"    const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+									"    \r",
+									"    const email = `${firstName}${lastName}${randomDomain}`;\r",
+									"    \r",
+									"    pm.environment.set(\"userMail\", email);\r",
+									"}\r",
+									"\r",
+									"userMail();\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{fullName}}\",\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\",\r\n  \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://serverest.dev/usuarios",
+							"protocol": "https",
+							"host": [
+								"serverest",
+								"dev"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "The tests in this request validate that the request body sent as form-data is valid."
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", function () {\r",
+									"    pm.expect(pm.globals.get(\"MsgAuth\")).to.eql(pm.response.json().message);\r",
+									"});\r",
+									"\r",
+									"pm.globals.set(\"token\",pm.response.json().authorization);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{userMail}}\",\r\n  \"password\": \"{{PassUser}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "The tests in the request validate the response code and the data returned in the response is the same as the one being sent."
+					},
+					"response": []
+				},
+				{
+					"name": "produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Validate authenticate msg\", () => {",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);",
+									"});",
+									"",
+									"pm.environment.set(\"id_produto\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function productDetails() {\r",
+									"    let products = [\r",
+									"        { \"nome\": \"Mouse Max LX\", \"preco\": 470, \"descricao\": \"Mouse\", \"quantidade\": 381 },\r",
+									"        { \"nome\": \"Teclado Ultra\", \"preco\": 320, \"descricao\": \"Teclado\", \"quantidade\": 150 },\r",
+									"        { \"nome\": \"Monitor Vision Pro\", \"preco\": 1240, \"descricao\": \"Monitor\", \"quantidade\": 45 },\r",
+									"        { \"nome\": \"Câmera Digital XT\", \"preco\": 870, \"descricao\": \"Câmera\", \"quantidade\": 78 },\r",
+									"        { \"nome\": \"Drone SkyFlyer\", \"preco\": 1790, \"descricao\": \"Drone\", \"quantidade\": 200 },\r",
+									"        { \"nome\": \"Fone de Ouvido Bass+\", \"preco\": 250, \"descricao\": \"Fone de Ouvido\", \"quantidade\": 500 },\r",
+									"        { \"nome\": \"Impressora JetPrint\", \"preco\": 670, \"descricao\": \"Impressora\", \"quantidade\": 60 },\r",
+									"        { \"nome\": \"Notebook PowerLite\", \"preco\": 2340, \"descricao\": \"Notebook\", \"quantidade\": 120 },\r",
+									"        { \"nome\": \"Smartwatch FitTrack\", \"preco\": 600, \"descricao\": \"Smartwatch\", \"quantidade\": 340 },\r",
+									"        { \"nome\": \"Tablet EasyTab\", \"preco\": 900, \"descricao\": \"Tablet\", \"quantidade\": 210 }\r",
+									"    ];\r",
+									"\r",
+									"    let randomProduct = products[Math.floor(Math.random() * products.length)];\r",
+									"\r",
+									"    let randomNumber = Math.floor(Math.random() * 999) + 1;\r",
+									"\r",
+									"    randomProduct.nome = `${randomProduct.nome} ${randomNumber}`;\r",
+									"\r",
+									"    return randomProduct;\r",
+									"}\r",
+									"\r",
+									"let product = productDetails();\r",
+									"pm.environment.set(\"productName\", product.nome);\r",
+									"pm.environment.set(\"productPrice\", product.preco);\r",
+									"pm.environment.set(\"productDescription\", product.descricao);\r",
+									"pm.environment.set(\"productQuantity\", product.quantidade);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{productName}}\",\r\n    \"preco\": {{productPrice}},\r\n    \"descricao\": \"{{productDescription}}\",\r\n    \"quantidade\": {{productQuantity}}\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/produtos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						},
+						"description": "The test on this request asserts that the reponse has a \"200 OK\" status.\n\nYou can check for any HTTP status code using the same mechanism, for example `pm.response.to.have.status(403)` if your API should return an \"Unauthorized\" response."
+					},
+					"response": []
+				},
+				{
+					"name": "produto_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Validate authenticate msg\", () => {",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);",
+									"});",
+									"",
+									"pm.environment.set(\"id_produto_2\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function productDetails() {\r",
+									"    let products = [\r",
+									"        { \"nome\": \"Mouse Max LX\", \"preco\": 470, \"descricao\": \"Mouse\", \"quantidade\": 381 },\r",
+									"        { \"nome\": \"Teclado Ultra\", \"preco\": 320, \"descricao\": \"Teclado\", \"quantidade\": 150 },\r",
+									"        { \"nome\": \"Monitor Vision Pro\", \"preco\": 1240, \"descricao\": \"Monitor\", \"quantidade\": 45 },\r",
+									"        { \"nome\": \"Câmera Digital XT\", \"preco\": 870, \"descricao\": \"Câmera\", \"quantidade\": 78 },\r",
+									"        { \"nome\": \"Drone SkyFlyer\", \"preco\": 1790, \"descricao\": \"Drone\", \"quantidade\": 200 },\r",
+									"        { \"nome\": \"Fone de Ouvido Bass+\", \"preco\": 250, \"descricao\": \"Fone de Ouvido\", \"quantidade\": 500 },\r",
+									"        { \"nome\": \"Impressora JetPrint\", \"preco\": 670, \"descricao\": \"Impressora\", \"quantidade\": 60 },\r",
+									"        { \"nome\": \"Notebook PowerLite\", \"preco\": 2340, \"descricao\": \"Notebook\", \"quantidade\": 120 },\r",
+									"        { \"nome\": \"Smartwatch FitTrack\", \"preco\": 600, \"descricao\": \"Smartwatch\", \"quantidade\": 340 },\r",
+									"        { \"nome\": \"Tablet EasyTab\", \"preco\": 900, \"descricao\": \"Tablet\", \"quantidade\": 210 }\r",
+									"    ];\r",
+									"\r",
+									"    let randomProduct = products[Math.floor(Math.random() * products.length)];\r",
+									"\r",
+									"    let randomNumber = Math.floor(Math.random() * 999) + 1;\r",
+									"\r",
+									"    randomProduct.nome = `${randomProduct.nome} ${randomNumber}`;\r",
+									"\r",
+									"    return randomProduct;\r",
+									"}\r",
+									"\r",
+									"let product = productDetails();\r",
+									"pm.environment.set(\"productName2\", product.nome);\r",
+									"pm.environment.set(\"productPrice2\", product.preco);\r",
+									"pm.environment.set(\"productDescription2\", product.descricao);\r",
+									"pm.environment.set(\"productQuantity2\", product.quantidade);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{productName2}}\",\r\n    \"preco\": {{productPrice2}},\r\n    \"descricao\": \"{{productDescription2}}\",\r\n    \"quantidade\": {{productQuantity2}}\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/produtos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						},
+						"description": "The test on this request asserts that the reponse has a \"200 OK\" status.\n\nYou can check for any HTTP status code using the same mechanism, for example `pm.response.to.have.status(403)` if your API should return an \"Unauthorized\" response."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "caminho_feliz",
+			"item": [
+				{
+					"name": "lista_carrinho",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Quantidade and Carrinhos fields are not empty\", () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.quantidade).to.be.a('number').that.is.greaterThan(0);\r",
+									"\r",
+									"    pm.expect(jsonData.carrinhos).to.be.an('array').that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/carrinhos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carrinho",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgRegisterSuccess\")).to.eql(pm.response.json().message);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"id_produtos\",pm.response.json()._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"produtos\": [\r\n    {\r\n      \"idProduto\": \"{{id_produto}}\",\r\n      \"quantidade\": 1\r\n    },\r\n    {\r\n      \"idProduto\": \"{{id_produto_2}}\",\r\n      \"quantidade\": 1\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/carrinhos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carrinho_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Produtos fields are not empty\", () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.produtos).to.be.an('array').that.is.not.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/carrinhos/{{id_produtos}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"carrinhos",
+								"{{id_produtos}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "excluir_carrinho",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/carrinhos/concluir-compra",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"carrinhos",
+								"concluir-compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "excluir_carrinho_cancelar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgNotFound\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/carrinhos/cancelar-compra",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"carrinhos",
+								"cancelar-compra"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dependência_delete",
+			"item": [
+				{
+					"name": "produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/produtos/{{id_produto}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{id_produto}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "produto_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", () => {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/produtos/{{id_produto_2}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{id_produto_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate authenticate msg\", function () {\r",
+									"    pm.expect(pm.globals.get(\"MsgDeletedSuccess\")).to.eql(pm.response.json().message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/usuarios/{{id_user}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"usuarios",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.sendRequest({\r",
+					"    url: 'https://serverest.dev/login',\r",
+					"    method: 'POST',\r",
+					"    header: {\r",
+					"        'Content-Type': 'application/json'\r",
+					"    },\r",
+					"    body: {\r",
+					"        mode: 'raw',\r",
+					"        raw: JSON.stringify({\r",
+					"            email: '{{userMail}}',\r",
+					"            password: '{{PassUser}}'\r",
+					"        })\r",
+					"    }\r",
+					"}, function (err, res) {\r",
+					"    if (err) {\r",
+					"        console.log(err);\r",
+					"    } else {\r",
+					"        var jsonData = res.json();\r",
+					"        const token = jsonData.authorization.split(' ')[1];\r",
+					"        pm.globals.set(\"token\", token);\r",
+					"        console.log(\"Token gerado: \", token);\r",
+					"    }\r",
+					"});\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
