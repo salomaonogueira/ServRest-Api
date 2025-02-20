@@ -36,7 +36,7 @@ jobs:
         
         # Runs a set of commands using the runners shell
       - name: Step 3 Execute collection
-        run: newman run ./usuários_collection.json -g ./globals.json -e ./environment.json --delay-request 1 --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
+        run: newman run ./usuarios.json -g ./globals.json -e ./environment.json --delay-request 1 --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
      
         # Runs a set of commands using the runners shell
       - name: Step 4 Archive production artifacts
