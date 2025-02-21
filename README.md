@@ -104,7 +104,7 @@ O GitHub Actions executa os testes da API utilizando o Newman. Toda vez que um n
 3️⃣ Executa os testes e gera relatórios
 4️⃣ Exibe os resultados diretamente no GitHub
 
-# 📜 Workflow (`.github/workflows/api-tests.yml`)  
+## 📜 Workflow (`.github/workflows/api-tests.yml`)  
 
 ### 📄 Exemplo de Workflow  
 ```yaml
@@ -145,10 +145,11 @@ jobs:
           path: ./results/report.html
 
 
-📌 Benefícios da Automação com GitHub Actions ✅
-- ✅ Detecta problemas rapidamente ao validar os endpoints  
-- ✅ Mantém a API sempre funcional após alterações no código  
-- ✅ Garante histórico de execuções no repositório  
+
+## ✅ Benefícios da Automação com GitHub Actions  
+- ✔️ Detecta problemas rapidamente ao validar os endpoints  
+- ✔️ Mantém a API sempre funcional após alterações no código  
+- ✔️ Garante histórico de execuções no repositório  
 
 ## 🚀 Como Executar os Testes  
 
