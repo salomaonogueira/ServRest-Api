@@ -10,40 +10,45 @@ A **[ServRest API](https://serverest.dev/)** é uma API REST gratuita que simula
 
 ---
 
-## 📂 Estrutura do Projeto  
+## 📂 Estrutura do Projeto
 
-📂 ServeRest (Coleção de Testes)
- ┣ 📂 01_usuários
- ┃ ┣ 📜 POST usuarios
- ┃ ┣ 📜 POST login
- ┃ ┣ 📜 GET lista de usuários
- ┃ ┣ 📜 GET usuarios_id
- ┃ ┗ 📜 DELETE usuarios
- ┣ 📂 02_produtos
- ┃ ┣ 📂 dependência
- ┃ ┣ 📂 caminho_feliz
- ┃ ┃ ┣ 📜 GET lista_produtos
- ┃ ┃ ┣ 📜 POST produto
- ┃ ┃ ┣ 📜 GET produto_id
- ┃ ┃ ┣ 📜 PUT atualizar_produto
- ┃ ┃ ┗ 📜 DELETE produto
- ┃ ┗ 📂 dependência_delete
- ┃ ┃ ┗ 📜 DELETE usuario
- ┣ 📂 03_carrinho
- ┃ ┣ 📂 dependência
- ┃ ┃ ┣ 📜 POST usuário
- ┃ ┃ ┣ 📜 POST login
- ┃ ┃ ┣ 📜 POST produto
- ┃ ┃ ┗ 📜 POST produto_2
- ┃ ┣ 📜 GET lista_carrinho
- ┃ ┣ 📜 POST carrinho
- ┃ ┣ 📜 GET carrinho_id
- ┃ ┣ 📜 DELETE excluir_carrinho
- ┃ ┣ 📜 DELETE excluir_carrinho_cancelar
- ┃ ┗ 📂 dependência_delete
- ┃ ┃ ┣ 📜 DELETE produto
- ┃ ┃ ┣ 📜 DELETE produto_2
- ┃ ┃ ┗ 📜 DELETE usuario
+### ServeRest (Coleção de Testes)
+
+#### 01_usuários
+- **POST** usuarios  
+- **POST** login  
+- **GET** lista de usuários  
+- **GET** usuarios_id  
+- **DELETE** usuarios  
+
+#### 02_produtos
+- 📁 **dependência**  
+- 📁 **caminho_feliz**  
+  - **GET** lista_produtos  
+  - **POST** produto  
+  - **GET** produto_id  
+  - **PUT** atualizar_produto  
+  - **DELETE** produto  
+- 📁 **dependência_delete**  
+  - **DELETE** usuario  
+
+#### 03_carrinho
+- 📁 **dependência**  
+  - **POST** usuário  
+  - **POST** login  
+  - **POST** produto  
+  - **POST** produto_2  
+- 📁 **caminho_feliz**  
+  - **GET** lista_carrinho  
+  - **POST** carrinho  
+  - **GET** carrinho_id  
+  - **DELETE** excluir_carrinho  
+  - **DELETE** excluir_carrinho_cancelar  
+- 📁 **dependência_delete**  
+  - **DELETE** produto  
+  - **DELETE** produto_2  
+  - **DELETE** usuario  
+
 
 ### 🔹 **Coleção de Testes – Postman**  
 
