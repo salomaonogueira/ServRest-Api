@@ -104,8 +104,9 @@ O GitHub Actions executa os testes da API utilizando o Newman. Toda vez que um n
 3️⃣ Executa os testes e gera relatórios
 4️⃣ Exibe os resultados diretamente no GitHub
 
-### 📜 Workflow (`.github/workflows/api-tests.yml`)  
-📄 Exemplo de Workflow
+# 📜 Workflow (`.github/workflows/api-tests.yml`)  
+
+### 📄 Exemplo de Workflow  
 ```yaml
 name: API Tests
 
@@ -143,16 +144,18 @@ jobs:
           name: relatorio-testes
           path: ./results/report.html
 
-### 🎯 **Benefícios da Automação com GitHub Actions**
-✅ Detecta problemas rapidamente ao validar os endpoints
-✅ Mantém a API sempre funcional após alterações no código
-✅ Garante histórico de execuções no repositório
 
-## ⚙️ Como Executar os Testes
-# 📥 1. Clone o Repositório
+📌 Benefícios da Automação com GitHub Actions ✅
+- ✅ Detecta problemas rapidamente ao validar os endpoints  
+- ✅ Mantém a API sempre funcional após alterações no código  
+- ✅ Garante histórico de execuções no repositório  
 
-git clone https://github.com/salomaonogueira/ServRest-Api
-cd ServRest-Api
+## 🚀 Como Executar os Testes  
+
+### 1️⃣ Clone o Repositório  
+```sh
+git clone https://github.com/salomaonogueira/ServRest-Api  
+cd ServRest-Api  
 
 # 🛠️ 2. Instale o Newman (caso ainda não tenha)
 Se ainda não tiver o Newman instalado globalmente, rode:
